@@ -49,7 +49,7 @@ class Candidate(Base):
     __tablename__ = 'candidates'
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    photo = Column(String(200), nullable=True)
+    photo = Column(String(200), default='') 
 
     student_id = Column(Integer, ForeignKey('students.id'))
     student = relationship('Student', back_populates='candidate')
@@ -67,21 +67,23 @@ class List(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String(50))
-    logo = Column(String(200))
+    logo = Column(String(200), default='')
     documentation = Column(String(200), default='')
     votes = Column(Integer, default=0)
 
     candidates = relationship('Candidate', back_populates='list')
-    list_documents = relationship('ListDocuments', back_populates='list')
+    list_documents = relationship('ListDocument', back_populates='list')
 
-class ListDocuments(Base):
-    
-        __tablename__ = 'lists_documents'
-    
-        id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-        list_id = Column(Integer, ForeignKey('lists.id'))
-        list = relationship('List', back_populates='list_documents')
-        document = Column(String(200))
+
+class ListDocument(Base):
+
+    __tablename__ = 'lists_documents'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    list_id = Column(Integer, ForeignKey('lists.id'))
+    list = relationship('List', back_populates='list_documents')
+    document = Column(String(200))
+
 
 class User(Base):
 
